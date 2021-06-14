@@ -34,7 +34,6 @@ AutoreleasePool::AutoreleasePool()
 , _isClearing(false)
 #endif
 {
-    _managedObjectArray.reserve(150);
     PoolManager::getInstance()->push(this);
 }
 
@@ -44,7 +43,6 @@ AutoreleasePool::AutoreleasePool(const std::string &name)
 , _isClearing(false)
 #endif
 {
-    _managedObjectArray.reserve(150);
     PoolManager::getInstance()->push(this);
 }
 
@@ -58,7 +56,7 @@ AutoreleasePool::~AutoreleasePool()
 
 void AutoreleasePool::addObject(Ref* object)
 {
-    _managedObjectArray.push_back(object);
+    _managedObjectArray.insert(object);
 }
 
 void AutoreleasePool::clear()
@@ -66,7 +64,7 @@ void AutoreleasePool::clear()
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
     _isClearing = true;
 #endif
-    std::vector<Ref*> releasings;
+    std::set<Ref*> releasings;
     releasings.swap(_managedObjectArray);
     for (const auto &obj : releasings)
     {

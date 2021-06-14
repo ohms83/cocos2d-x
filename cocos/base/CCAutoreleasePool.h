@@ -27,6 +27,7 @@ THE SOFTWARE.
 #define __AUTORELEASEPOOL_H__
 
 #include <vector>
+#include <set>
 #include <string>
 #include "base/CCRef.h"
 
@@ -70,8 +71,7 @@ public:
     /**
      * Add a given object to this autorelease pool.
      *
-     * The same object may be added several times to an autorelease pool. When the
-     * pool is destructed, the object's `Ref::release()` method will be called
+     * When the pool is destructed, the object's `Ref::release()` method will be called
      * the same times as it was added.
      *
      * @param object    The object to be added into the autorelease pool.
@@ -133,7 +133,7 @@ private:
      * be destructed properly by calling Ref::release() even if the object
      * is in the pool.
      */
-    std::vector<Ref*> _managedObjectArray;
+    std::set<Ref*> _managedObjectArray;
     std::string _name;
     
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
